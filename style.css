@@ -1,0 +1,204 @@
+:root{
+  --bg:#000000;
+  --accent:#e7e6e2;
+  --accent-dim:rgba(231,230,226,0.45);
+  --glass:rgba(255,255,255,0.06);
+  --ring:rgba(255,255,255,0.85);
+  --danger:#ff4d4d;
+}
+
+*{ box-sizing:border-box; }
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:var(--bg);
+  overflow:hidden;
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+#stage{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  background:#000;
+}
+
+/* Webcam fills viewport, sits behind everything */
+#webcam{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scaleX(-1);
+  filter:saturate(0.9) contrast(1.02) brightness(0.92);
+  z-index:0;
+}
+
+#captureCanvas{
+  display:none;
+}
+
+/* Three.js canvas sits above webcam, transparent clear so webcam shows through gaps */
+#glCanvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:2;
+  display:block;
+}
+
+/* subtle vignette for cinematic depth, above canvas, non-interactive */
+#stage::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%);
+}
+
+/* HUD */
+#hud{
+  position:absolute;
+  top:22px;
+  left:26px;
+  z-index:5;
+  color:var(--accent);
+  user-select:none;
+  pointer-events:none;
+}
+
+.hud-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
+}
+
+.hud-label{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  opacity:0.92;
+}
+
+.hud-sub{
+  font-size:11px;
+  letter-spacing:1.5px;
+  color:var(--accent-dim);
+  text-transform:uppercase;
+}
+
+.hud-status{
+  font-size:11px;
+  letter-spacing:1px;
+  color:var(--accent-dim);
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  display:inline-block;
+  box-shadow:0 0 8px 1px currentColor;
+  transition:background-color 0.4s ease, color 0.4s ease;
+}
+.dot-off{ background:#555; color:#555; }
+.dot-on{ background:#5CFFB1; color:#5CFFB1; }
+
+.hud-keys{
+  gap:18px;
+  margin-top:2px;
+}
+.hud-keys span{
+  font-size:11px;
+  color:var(--accent-dim);
+  letter-spacing:0.5px;
+}
+kbd{
+  display:inline-block;
+  padding:2px 6px;
+  border-radius:4px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,0.14);
+  font-size:10px;
+  font-weight:600;
+  color:var(--accent);
+  margin-right:4px;
+}
+
+/* Loader */
+#loader{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#000;
+  transition:opacity 0.6s ease;
+}
+#loader.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+.loader-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+}
+.loader-ring{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,0.12);
+  border-top-color:var(--ring);
+  animation:spin 0.9s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.loader-text{
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent-dim);
+}
+
+/* Permission error */
+#permissionError{
+  position:absolute;
+  inset:0;
+  z-index:11;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#000;
+}
+.hidden{ display:none !important; }
+.perm-box{
+  text-align:center;
+  max-width:320px;
+  padding:28px 30px;
+  border-radius:14px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,0.1);
+}
+.perm-title{
+  color:var(--accent);
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:0.5px;
+  margin-bottom:8px;
+}
+.perm-body{
+  color:var(--accent-dim);
+  font-size:12.5px;
+  line-height:1.5;
+}
