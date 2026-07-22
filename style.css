@@ -28,7 +28,7 @@ html,body{
   background:#000;
 }
 
-/* Webcam fills viewport, sits behind everything */
+/* Webcam fills viewport, sit behind everything */
 #webcam{
   position:absolute;
   inset:0;
