@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Floating Wall — Hand Field</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="stage">
+    <!-- Live webcam feed, fills viewport, visible behind tiles -->
+    <video id="webcam" autoplay playsinline muted></video>
+
+    <!-- Hidden capture canvas used to sample webcam pixels for tile textures -->
+    <canvas id="captureCanvas"></canvas>
+
+    <!-- Three.js render target -->
+    <canvas id="glCanvas"></canvas>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div class="hud-row">
+        <span class="hud-label">FLOATING WALL</span>
+        <span class="hud-sub">hand field</span>
+      </div>
+      <div class="hud-row hud-status">
+        <span id="handStatus" class="dot dot-off"></span>
+        <span id="handStatusText">no hand</span>
+      </div>
+      <div class="hud-row hud-keys">
+        <span><kbd>R</kbd> randomize</span>
+        <span><kbd>Space</kbd> explode</span>
+      </div>
+    </div>
+
+    <div id="loader">
+      <div class="loader-inner">
+        <div class="loader-ring"></div>
+        <div class="loader-text">initializing camera &amp; tracking</div>
+      </div>
+    </div>
+
+    <div id="permissionError" class="hidden">
+      <div class="perm-box">
+        <div class="perm-title">Camera access required</div>
+        <div class="perm-body">Allow camera access to enter the floating wall.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MediaPipe Hands -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/ShaderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/CopyShader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
