@@ -26,7 +26,7 @@
       </div>
       <div class="hud-row hud-status">
         <span id="handStatus" class="dot dot-off"></span>
-        <span id="handStatusText">no hand</span>
+        <span id="handStatusText">tracking loading…</span>
       </div>
       <div class="hud-row hud-keys">
         <span><kbd>R</kbd> randomize</span>
@@ -34,34 +34,42 @@
       </div>
     </div>
 
+    <!-- Loading overlay: only blocks until webcam frame is visible -->
     <div id="loader">
       <div class="loader-inner">
         <div class="loader-ring"></div>
-        <div class="loader-text">initializing camera &amp; tracking</div>
+        <div class="loader-text" id="loaderText">requesting camera access</div>
       </div>
     </div>
+
+    <!-- Non-blocking warning banner (e.g. hand tracking failed/slow) -->
+    <div id="warningBanner" class="hidden"></div>
+
+    <!-- Dev-mode error log panel -->
+    <div id="errorPanel" class="hidden"></div>
 
     <div id="permissionError" class="hidden">
       <div class="perm-box">
         <div class="perm-title">Camera access required</div>
-        <div class="perm-body">Allow camera access to enter the floating wall.</div>
+        <div class="perm-body" id="permErrorBody">Allow camera access to enter the floating wall.</div>
       </div>
     </div>
   </div>
 
-  <!-- MediaPipe Hands -->
+  <!-- Import map: pin Three.js core + matching addon versions from the same build -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- MediaPipe Hands (classic globals — no ESM build available) -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 
-  <!-- Three.js -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/ShaderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/CopyShader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
